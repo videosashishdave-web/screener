@@ -16,8 +16,8 @@ st.set_page_config(page_title="VSN Stock Screener", layout="wide", initial_sideb
 # ==========================================
 # તમે અહીં તમારા Username અને Password બદલી શકો છો
 USERS = {
-    "admin": "vsn123",      # Username: admin, Password: vsn123
-    "user1": "pass123"      # બીજા કોઈ મિત્ર માટે અલગ પાસવર્ડ આપવો હોય તો
+    "VSNINFO": "Ashish@1982",      # Username: admin, Password: vsn123
+    "VSNINFO": "Ashish@1982"      # બીજા કોઈ મિત્ર માટે અલગ પાસવર્ડ આપવો હોય તો
 }
 
 def login_screen():
