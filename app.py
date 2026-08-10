@@ -11,11 +11,51 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 st.set_page_config(page_title="VSN Stock Screener", layout="wide", initial_sidebar_state="expanded")
 
-FAV_FILE = "favorites.json"
+# ==========================================
+# 🔐 LOGIN SYSTEM
+# ==========================================
+# તમે અહીં તમારા Username અને Password બદલી શકો છો
+USERS = {
+    "admin": "vsn123",      # Username: admin, Password: vsn123
+    "user1": "pass123"      # બીજા કોઈ મિત્ર માટે અલગ પાસવર્ડ આપવો હોય તો
+}
+
+def login_screen():
+    if "logged_in" not in st.session_state:
+        st.session_state["logged_in"] = False
+
+    if not st.session_state["logged_in"]:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.markdown("### 🔐 VSN Screener Login")
+            st.info("કૃપા કરીને આગળ વધવા માટે Login કરો.")
+            username = st.text_input("Username").strip()
+            password = st.text_input("Password", type="password").strip()
+            
+            if st.button("Login", type="primary", use_container_width=True):
+                if username in USERS and USERS[username] == password:
+                    st.session_state["logged_in"] = True
+                    st.success("Login સફળ થયું!")
+                    st.rerun()
+                else:
+                    st.error("ખોટો Username અથવા Password!")
+        return False
+    return True
+
+# જો Login ન થયેલું હોય તો સ્કેનર આગળ નહીં વધે
+if not login_screen():
+    st.stop()
+
+# Logout બટન સાઈડબારમાં
+if st.sidebar.button("🚪 Logout"):
+    st.session_state["logged_in"] = False
+    st.rerun()
 
 # ==========================================
 # Helpers & Data Fetching
 # ==========================================
+FAV_FILE = "favorites.json"
+
 def load_favorites():
     if os.path.exists(FAV_FILE):
         try:
